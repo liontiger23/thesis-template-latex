@@ -23,9 +23,8 @@ COMMON_DIR = common
 
 SRC  = $(wildcard $(SRC_DIR)/*.md)
 PDF  = $(SRC:.md=.pdf)
-PDF_DARK = $(PDF:.pdf=-dark.pdf)
 
-PDF_PUBLISH = $(PDF:$(SRC_DIR)/%=$(PUBLISH_DIR)/%) $(PDF_DARK:$(SRC_DIR)/%=$(PUBLISH_DIR)/%)
+PDF_PUBLISH = $(PDF:$(SRC_DIR)/%=$(PUBLISH_DIR)/%)
 PDF_NAMES = $(PDF:$(SRC_DIR)/%.pdf=%)
 
 PNG_ROOT = $(wildcard $(IMAGES_DIR)/*.png)
@@ -54,11 +53,11 @@ DOT_PDF = $(DOT_PDF_ROOT) $(DOT_PDF_TARGET)
 all: pdf
 
 publish: $(PDF_PUBLISH)
-pdf:  $(PDF) $(PDF_DARK)
+pdf:  $(PDF)
 
 clean: 
 	@echo "Cleaning up..."
-	rm -rvf $(PDF) $(PDF_DARK) $(SVG_PDF) $(DOT_PDF)
+	rm -rvf $(PDF) $(SVG_PDF) $(DOT_PDF)
 
 ############################
 # Publish patterns
@@ -75,10 +74,7 @@ $(PDF_PUBLISH): $(PUBLISH_DIR)/%.pdf: $(SRC_DIR)/%.pdf
 PANDOC_ARGS :=
 
 $(PDF): %.pdf: %.md
-	$(PANDOC) $(PANDOC_ARGS) -t beamer --pdf-engine lualatex $< -o $@
-
-$(PDF_DARK): %-dark.pdf: %.md
-	$(PANDOC) $(PANDOC_ARGS) -t beamer --pdf-engine lualatex --variable darkmode=true $< -o $@
+	$(PANDOC) $(PANDOC_ARGS) --pdf-engine lualatex $< -o $@
 	
 ############################
 # Image patterns
@@ -103,8 +99,15 @@ ROOT_IMAGE_DEPS = $(filter $(IMAGES_DIR)/%,$(DOT_PDF_ROOT) $(SVG_PDF_ROOT) $(PNG
 
 .SECONDEXPANSION:
 $(PDF): $(SRC_DIR)/%.pdf: $(ROOT_IMAGE_DEPS) $(COMMON_PNG_IMAGE_DEPS) $$(TARGET_IMAGE_DEPS)
-$(PDF_DARK): $(SRC_DIR)/%-dark.pdf: $(ROOT_IMAGE_DEPS) $(COMMON_PNG_IMAGE_DEPS) $$(TARGET_IMAGE_DEPS)
 
-$(PDF) $(PDF_DARK): $(COMMON_DIR)/pres.yaml $(COMMON_DIR)/pres-preamble.tex $(COMMON_DIR)/pres-template.tex
-$(PDF) $(PDF_DARK): PANDOC_ARGS = $(COMMON_DIR)/pres.yaml -H $(COMMON_DIR)/pres-preamble.tex --listings --template $(COMMON_DIR)/pres-template.tex --slide-level=1
+$(PDF): $(COMMON_DIR)/text-preamble.tex
+$(PDF): PANDOC_ARGS = \
+	-H $(COMMON_DIR)/text-preamble.tex \
+	--listings \
+	-N --toc \
+	-F pandoc-crossref \
+	--citeproc \
+	--bibliography $(COMMON_DIR)/citations.bib \
+  --csl $(COMMON_DIR)/gost/gost-r-7-0-5-2008-numeric.csl
+	  
 

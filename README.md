@@ -1,8 +1,8 @@
-# Presentation template
+# Thesis template
 
-Sample template to get you started with Pandoc + Beamer presentations.
+Sample template to get you started with Pandoc + LaTeX thesis.
 
-Fork this repository to bootstrap your presentation.
+Fork this repository to bootstrap your thesis.
 
 Source markdown files located at [src](src) directory.
 Result is published at [publish](publish) directory.
@@ -12,7 +12,7 @@ Result: [publish/sample.pdf](publish/sample.pdf)
 
 ## Building
 
-Following command builds your presentations into `.pdf`:
+Following command builds your thesis into `.pdf`:
 
 ```
 make
