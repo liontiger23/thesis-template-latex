@@ -21,10 +21,18 @@ jobs:
         tar -xvf pandoc-crossref-Linux-X64.tar.xz
         sudo mv pandoc-crossref /usr/local/bin/
 
+    - name: Install ttf-mscorefonts-installer
+      run: |
+        echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+        sudo apt-get install -y ttf-mscorefonts-installer
+
+    - name: Refresh font cache
+      run: sudo fc-cache -f -v
+
     - name: Install latex
       run: |
         sudo apt-get update
-        sudo apt-get install -y texlive-luatex texlive-lang-cyrillic texlive-fonts-recommended texlive-fonts-extra ttf-mscorefonts-installer
+        sudo apt-get install -y texlive-luatex texlive-lang-cyrillic texlive-fonts-recommended texlive-fonts-extra
         # Verify all necessary tools are installed
         pdflatex --version
         bibtex --version
