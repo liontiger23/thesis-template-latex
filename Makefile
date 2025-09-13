@@ -100,9 +100,9 @@ ROOT_IMAGE_DEPS = $(filter $(IMAGES_DIR)/%,$(DOT_PDF_ROOT) $(SVG_PDF_ROOT) $(PNG
 .SECONDEXPANSION:
 $(PDF): $(SRC_DIR)/%.pdf: $(ROOT_IMAGE_DEPS) $(COMMON_PNG_IMAGE_DEPS) $$(TARGET_IMAGE_DEPS)
 
-$(PDF): $(COMMON_DIR)/text-preamble.tex
+$(PDF): $(COMMON_DIR)/preamble.tex
 $(PDF): PANDOC_ARGS = \
-	-H $(COMMON_DIR)/text-preamble.tex \
+	-H $(COMMON_DIR)/preamble.tex \
 	--listings \
 	-N --toc \
 	-F pandoc-crossref \
