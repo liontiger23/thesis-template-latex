@@ -12,18 +12,26 @@ jobs:
     
     - name: Install pandoc
       uses: pandoc/actions/setup@main
+      with:
+        version: 3.7.0.2
+
+    - name: Install pandoc-crossref
+      run: |
+        curl -LO https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.20/pandoc-crossref-Linux-X64.tar.xz
+        tar -xvf pandoc-crossref-Linux-X64.tar.xz
+        sudo mv pandoc-crossref /usr/local/bin/
 
     - name: Install latex
       run: |
         sudo apt-get update
-        sudo apt-get install texlive-luatex texlive-lang-cyrillic texlive-fonts-recommended texlive-fonts-extra
+        sudo apt-get install -y texlive-luatex texlive-lang-cyrillic texlive-fonts-recommended texlive-fonts-extra ttf-mscorefonts-installer
         # Verify all necessary tools are installed
         pdflatex --version
         bibtex --version
 
-    - name: Install Inkscape and Graphviz
+    - name: Install Make, Inkscape and Graphviz
       run: |
-        sudo apt-get install inkscape graphviz
+        sudo apt-get install -y make inkscape graphviz 
 
     - name: Make pdf
       run: make -j publish
