@@ -43,6 +43,9 @@ DOT_PDF_ROOT = $(DOT_ROOT:.gv=.pdf)
 DOT_PDF_TARGET = $(DOT_TARGET:.gv=.pdf)
 DOT_PDF = $(DOT_PDF_ROOT) $(DOT_PDF_TARGET)
 
+DOC     = $(wildcard $(SRC_DIR)/*.doc)
+DOC_PDF = $(DOC:.doc=.pdf)
+
 ############################
 # Goals
 ############################
@@ -57,7 +60,7 @@ pdf:  $(PDF)
 
 clean: 
 	@echo "Cleaning up..."
-	rm -rvf $(PDF) $(SVG_PDF) $(DOT_PDF)
+	rm -rvf $(PDF) $(SVG_PDF) $(DOT_PDF) $(SRC_DIR)/title.pdf
 
 ############################
 # Publish patterns
@@ -89,6 +92,9 @@ $(SVG_PDF): %.pdf: %.svg
 $(DOT_PDF): %.pdf: %.gv
 	dot -Tpdf $< -o $@
 
+$(DOC_PDF): %.pdf: %.doc
+	soffice --headless --convert-to pdf --outdir $(dir $@) $<
+
 ############################
 # Custom patterns
 ############################
@@ -98,7 +104,7 @@ TARGET_IMAGE_DEPS = $(filter $(IMAGES_DIR)/$*/%,$(DOT_PDF_TARGET) $(SVG_PDF_TARG
 ROOT_IMAGE_DEPS = $(filter $(IMAGES_DIR)/%,$(DOT_PDF_ROOT) $(SVG_PDF_ROOT) $(PNG_ROOT))
 
 .SECONDEXPANSION:
-$(PDF): $(SRC_DIR)/%.pdf: $(ROOT_IMAGE_DEPS) $(COMMON_PNG_IMAGE_DEPS) $$(TARGET_IMAGE_DEPS)
+$(PDF): $(SRC_DIR)/%.pdf: $(ROOT_IMAGE_DEPS) $(COMMON_PNG_IMAGE_DEPS) $$(TARGET_IMAGE_DEPS) $(DOC_PDF)
 
 $(PDF): $(COMMON_DIR)/preamble.tex
 $(PDF): PANDOC_ARGS = \
