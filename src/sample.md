@@ -3,7 +3,7 @@ documentclass: extarticle
 papersize: a4
 geometry: "left=3cm,right=2cm,top=3cm,bottom=2cm"
 
-fontsize: 12pt
+fontsize: 14pt
 listings: true
 indent: true
 codeBlockCaptions: true
