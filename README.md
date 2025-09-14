@@ -1,13 +1,14 @@
 # Thesis template
 
-Sample template to get you started with Pandoc + LaTeX thesis.
+Sample template to get you started with LaTeX thesis.
 
 Fork this repository to bootstrap your thesis.
 
 Source markdown files located at [src](src) directory.
 Result is published at [publish](publish) directory.
 
-Sample: [src/sample.md](src/sample.md)  
+Sample: [src/sample.tex](src/sample.tex)  
+Preamble: [common/preamble.tex](common/preamble.tex)
 Result: [publish/sample.pdf](publish/sample.pdf)
 
 ## Building

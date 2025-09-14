@@ -1,6 +1,6 @@
 ############################
 # Usage
-# make         # converts all src/*.md files to publish/*.pdf files using pandoc
+# make         # converts all src/*.tex files to publish/*.pdf files using lualatex
 # make clean   # cleans up publish/*.pdf artifacts
 ############################
 
@@ -10,19 +10,20 @@ all:
 # Common
 ############################
 
-PANDOC = pandoc
+LATEXMK = latexmk
 
 PUBLISH_DIR = publish
 SRC_DIR = src
 IMAGES_DIR = images
 COMMON_DIR = common
+BUILD_DIR = build
 
 ############################
 # Targets
 ############################
 
-SRC  = $(wildcard $(SRC_DIR)/*.md)
-PDF  = $(SRC:.md=.pdf)
+SRC  = $(wildcard $(SRC_DIR)/*.tex)
+PDF  = $(SRC:.tex=.pdf)
 
 PDF_PUBLISH = $(PDF:$(SRC_DIR)/%=$(PUBLISH_DIR)/%)
 PDF_NAMES = $(PDF:$(SRC_DIR)/%.pdf=%)
@@ -60,7 +61,7 @@ pdf:  $(PDF)
 
 clean: 
 	@echo "Cleaning up..."
-	rm -rvf $(PDF) $(SVG_PDF) $(DOT_PDF) $(DOC_PDF)
+	rm -rvf $(PDF) $(SVG_PDF) $(DOT_PDF) $(DOC_PDF) $(BUILD_DIR)
 
 ############################
 # Publish patterns
@@ -71,13 +72,13 @@ $(PDF_PUBLISH): $(PUBLISH_DIR)/%.pdf: $(SRC_DIR)/%.pdf
 	cp $< $@
 
 ############################
-# Pandoc patterns
+# LaTeX patterns
 ############################
 
-PANDOC_ARGS :=
-
-$(PDF): %.pdf: %.md
-	$(PANDOC) $(PANDOC_ARGS) --pdf-engine lualatex $< -o $@
+$(PDF): %.pdf: %.tex
+	$(LATEXMK) -halt-on-error -lualatex $< -output-directory=$(BUILD_DIR) >/dev/null 2>&1 \
+		|| (tail -n25 $(BUILD_DIR)/$(notdir $(basename $@)).log; exit 1)
+	cp $(BUILD_DIR)/$(notdir $@) $@
 	
 ############################
 # Image patterns
@@ -106,14 +107,6 @@ ROOT_IMAGE_DEPS = $(filter $(IMAGES_DIR)/%,$(DOT_PDF_ROOT) $(SVG_PDF_ROOT) $(PNG
 .SECONDEXPANSION:
 $(PDF): $(SRC_DIR)/%.pdf: $(ROOT_IMAGE_DEPS) $(COMMON_PNG_IMAGE_DEPS) $$(TARGET_IMAGE_DEPS) $(DOC_PDF)
 
-$(PDF): $(COMMON_DIR)/preamble.tex
-$(PDF): PANDOC_ARGS = \
-	-H $(COMMON_DIR)/preamble.tex \
-	--listings \
-	-N --toc \
-	-F pandoc-crossref \
-	--citeproc \
-	--bibliography $(COMMON_DIR)/citations.bib \
-  --csl $(COMMON_DIR)/gost/gost-r-7-0-5-2008-numeric.csl
-	  
+$(PDF): $(COMMON_DIR)/preamble.tex $(COMMON_DIR)/citations.bib $(COMMON_DIR)/gost/gost-r-7-0-5-2008-numeric.csl
+
 

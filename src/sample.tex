@@ -1,98 +1,81 @@
----
-documentclass: extarticle
-papersize: a4
-geometry: "left=3cm,right=2cm,top=3cm,bottom=2cm"
+\input{common/preamble.tex}
 
-fontsize: 14pt
-listings: true
-indent: true
-codeBlockCaptions: true
-colorlinks: false
-link-citations: true
+\begin{document}
 
-mainfont: Times New Roman
-monofont: DejaVu Sans Mono
-mathfont: XITS Math
-lang: ru-RU
-babel-lang: russian
+\includepdf[pages={1}]{src/title.pdf}
 
-figPrefix: 
-  - рис.
-  - рис.
-tblPrefix: 
-  - табл.
-  - табл.
-toc-title: СОДЕРЖАНИЕ
-
-# Comment out if title is not needed
-include-before: |
-  ```{=latex}
-  \includepdf[pages={1}]{src/title.pdf}
-  ```
----
-
+\renewcommand*\contentsname{СОДЕРЖАНИЕ}
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
 \pagebreak
-# ВВЕДЕНИЕ {#sec:introduction -}
 
-Данная работа является примером оформления текста ВКР.
-В качестве примера ссылки на литературу, можно упомянуть язык Java [@gosling2000java],
-который исполняется на виртуальной машине JVM [@lindholm2014java].
+\section*{ВВЕДЕНИЕ}\label{sec:introduction}
+\addcontentsline{toc}{section}{ВВЕДЕНИЕ}
+
+Данная работа является примером оформления текста ВКР. В качестве
+примера ссылки на литературу, можно упомянуть язык Java \cite{gosling2000java},
+который исполняется на виртуальной машине JVM \cite{lindholm2014java}.
 
 Завершение введения отдельным параграфом.
 
 \clearpage
 \pagebreak
-# ПОСТАНОВКА ЗАДАЧИ {#sec:overview}
+
+\section{ПОСТАНОВКА ЗАДАЧИ}\label{sec:overview}
 
 Постановка задачи и обзор существующих работ.
 
-## Теорема Пифагора
+\subsection{Теорема Пифагора}\label{sec:pythagoras}
 
-Основная формулировка содержит алгебраические действия ---
-в прямоугольном треугольнике, длины катетов которого равны 
-$a$ и $b$, а длина гипотенузы --- $c$, выполнено соотношение:
+Основная формулировка содержит алгебраические действия --- в
+прямоугольном треугольнике, длины катетов которого равны \(a\) и \(b\),
+а длина гипотенузы --- \(c\), выполнено соотношение:
 
-$$
+\[
 a^2 + b^2 = c^2.
-$$
+\]
 
-Для того чтобы ссылаться на формулы, их можно нумеровать следующим образом:
+Для того чтобы ссылаться на формулы, их можно нумеровать следующим
+образом:
 
-$$
+\begin{equation}\label{eq:pythagoras}{
 a^2 + b^2 = c^2
-$$ {#eq:pythagoras}
+}\end{equation}
 
-На такую формулу можно ссылаться как [-@eq:pythagoras] где угодно в тексте.
+На такую формулу можно ссылаться как \ref{eq:pythagoras} где угодно в
+тексте.
 
-## Пример листинга
+\subsection{Пример листинга}\label{sec:lst-example}
 
-Ниже в листинге [-@lst:python-fact] представлен пример
-вычисления факториала на языке Python.
+Ниже в листинге \ref{lst:python-fact} представлен пример вычисления
+факториала на языке Python.
 
-```{.python #lst:python-fact}
+\begin{lstlisting}[language=Python, caption={Вычисление факториала числа n}, label=lst:python-fact]
 def fact(n):
   if (n==1 or n==0):
     return 1
   else:
     return n * fact(n - 1)
-```
-: Вычисление факториала числа `n`
+\end{lstlisting}
 
-## Пример рисунка
+\subsection{Пример рисунка}\label{sec:fig-example}
 
-Далее на рис. [-@fig:png-svg-compare] и [-@fig:tikz-example] представлены
-примеры вставки изображений в работу.
+Далее на рис. \ref{fig:png-svg-compare} и \ref{fig:tikz-example}
+представлены примеры вставки изображений в работу.
 
-<div id="fig:png-svg-compare">
+\begin{figure}\centering%
 
-![](images/sample/Markdown-mark.svg.png){#fig:markdown-mark-png width=40%}
-![](images/sample/Markdown-mark.pdf){#fig:markdown-mark-svg}
+\subfloat[]{\includegraphics[width=0.4\textwidth,height=\textheight]{images/sample/Markdown-mark.svg.png}\label{fig:markdown-mark-png}}
+\subfloat[]{\includegraphics{images/sample/Markdown-mark.pdf}\label{fig:markdown-mark-svg}}
 
-Пример рисунка в формате png [-@fig:markdown-mark-png]
-и в формате svg после конвертации в pdf [-@fig:markdown-mark-svg]
-</div>
+\caption{Пример рисунка в формате png \ref{fig:markdown-mark-png} и в
+формате svg после конвертации в pdf
+\ref{fig:markdown-mark-svg}}\label{fig:png-svg-compare}
 
-```{=latex}
+\end{figure}
+
 \begin{tikzfigure}{fig:tikz-example}{Таблица виртуальных методов для класса C}
   {every node/.style={text=black}}
 
@@ -107,46 +90,61 @@ def fact(n):
   \node [font=\Large] {\LaTeX};
 
 \end{tikzfigure}
-```
 
 \clearpage
 \pagebreak
-# РАЗРАБОТАННЫЙ ПОДХОД {#sec:solution}
+
+\section{РАЗРАБОТАННЫЙ ПОДХОД}\label{sec:solution}
 
 \clearpage
 \pagebreak
-# ЗАКЛЮЧЕНИЕ {#sec:conclusion -}
+
+\section*{ЗАКЛЮЧЕНИЕ}\label{sec:conclusion}
+\addcontentsline{toc}{section}{ЗАКЛЮЧЕНИЕ}
 
 Основные результаты работы:
 
-- Первый результат;
-- Второй результат;
-- Третий результат;
-- Последний результат.
+\begin{itemize}
+\tightlist
+\item
+  Первый результат;
+\item
+  Второй результат;
+\item
+  Третий результат;
+\item
+  Последний результат.
+\end{itemize}
 
 Направление дальнейших работ:
 
-- Улучшить алгоритм;
-- Провести анализ данных.
+\begin{itemize}
+\tightlist
+\item
+  Улучшить алгоритм;
+\item
+  Провести анализ данных.
+\end{itemize}
 
 \clearpage
 \pagebreak
-# СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ {-}
 
-<div id="refs"></div>
+\section*{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}\label{sec:bib}
+\addcontentsline{toc}{section}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
+
+\printbibliography[heading=none]
 
 \renewcommand{\thesection}{П}
 \setcounter{subsection}{0}
 \setcounter{figure}{0}
 \setcounter{lstlisting}{0}
 \pagebreak
-# ПРИЛОЖЕНИЕ {#sec:appendix -}
 
-## Первая глава приложения
+\section*{ПРИЛОЖЕНИЕ}\label{sec:appendix}
+\addcontentsline{toc}{section}{ПРИЛОЖЕНИЕ}
+
+\subsection{Первая глава приложения}\label{sec:appendix-1}
 
 В приложение обычно выносятся длинные листинги и таблицы.
 
-
-
-
-
+\end{document}
