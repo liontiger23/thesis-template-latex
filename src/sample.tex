@@ -15,10 +15,12 @@
 \addcontentsline{toc}{section}{ВВЕДЕНИЕ}
 
 Данная работа является примером оформления текста ВКР. В качестве
-примера ссылки на литературу, можно упомянуть язык Java \cite{gosling2000java},
-который исполняется на виртуальной машине JVM \cite{lindholm2014java}.
+примера ссылки на литературу, можно упомянуть язык Java~\cite{gosling2000java},
+который исполняется на виртуальной машине JVM~\cite{lindholm2014java}.
 
-Завершение введения отдельным параграфом.
+Завершение введения отдельным параграфом со сноской\footnote{Любая
+  дополнительная информация может вынесена в сноску, включая
+  форматирование \emph{текста} и формул (\(\sum_{i}^{n}{i}\)).}.
 
 \clearpage
 \pagebreak
@@ -26,6 +28,71 @@
 \section{ПОСТАНОВКА ЗАДАЧИ}\label{sec:overview}
 
 Постановка задачи и обзор существующих работ.
+
+\subsection{Существующие работы}\label{sec:related-work}
+
+Эта секция исключительно для примеров вложенных списков.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Первый элемент
+\item
+  Второй элемент
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    Первый вложенный элемент
+  \item
+    Второй вложенный элемент
+  \end{enumerate}
+\item
+  Третий элемент
+\end{enumerate}
+
+И перечисление без порядка:
+
+\begin{itemize}
+\tightlist
+\item
+  Какой-то элемент
+\item
+  Следующий элемент
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Новый вложенный элемент
+  \item
+    Еще вложенный элемент
+  \end{itemize}
+\item
+  Последний элемент
+\end{itemize}
+
+А также вперемешку:
+
+\begin{itemize}
+\tightlist
+\item
+  Какой-то элемент
+\item
+  Следующий элемент
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Первый вложенный элемент
+  \item
+    Второй вложенный элемент
+  \end{enumerate}
+\item
+  Последний элемент
+\end{itemize}
 
 \subsection{Теорема Пифагора}\label{sec:pythagoras}
 
@@ -44,12 +111,12 @@ a^2 + b^2 = c^2.
 a^2 + b^2 = c^2
 }\end{equation}
 
-На такую формулу можно ссылаться как \ref{eq:pythagoras} где угодно в
+Теперь можно сослаться на формулу~\ref{eq:pythagoras} где угодно в
 тексте.
 
 \subsection{Пример листинга}\label{sec:lst-example}
 
-Ниже в листинге \ref{lst:python-fact} представлен пример вычисления
+Ниже в листинге~\ref{lst:python-fact} представлен пример вычисления
 факториала на языке Python.
 
 \begin{lstlisting}[language=Python, caption={Вычисление факториала числа n}, label=lst:python-fact]
@@ -62,7 +129,7 @@ def fact(n):
 
 \subsection{Пример рисунка}\label{sec:fig-example}
 
-Далее на рис. \ref{fig:png-svg-compare} и \ref{fig:tikz-example}
+Далее на рис.~\ref{fig:png-svg-compare}~и~\ref{fig:tikz-example}
 представлены примеры вставки изображений в работу.
 
 \begin{figure}\centering%
@@ -75,6 +142,10 @@ def fact(n):
 \ref{fig:markdown-mark-svg}}\label{fig:png-svg-compare}
 
 \end{figure}
+
+Всегда лучше выбирать рисунки в векторном формате (.svg, .pdf и.т.п),
+либо рисовать прямо в \LaTeX с помощью Ti\emph{k}Z, как показано на
+рис.~\ref{fig:tikz-example}.
 
 \begin{tikzfigure}{fig:tikz-example}{Таблица виртуальных методов для класса C}
   {every node/.style={text=black}}
@@ -95,6 +166,105 @@ def fact(n):
 \pagebreak
 
 \section{РАЗРАБОТАННЫЙ ПОДХОД}\label{sec:solution}
+
+\subsection{Определения}\label{sec:definitions}
+
+\begin{definition}\label{def:even} Четным числом называется целое число, которое представимо
+в виде произведения числа 2 и другого целого числа.
+\end{definition}
+
+\begin{definition}\label{def:odd} Нечетным числом называется целое
+число, которое \textbf{не} представимо в виде произведения числа 2 и
+другого целого числа.
+\end{definition}
+
+\subsection{Теоремы}\label{sec:theorems}
+
+\begin{theorem}\label{thm:even} Сумма двух четных целых всегда четная.
+\end{theorem}
+
+\begin{proof} Пусть даны два целых числа $x, y \in \mathbb{Z}$. По определению\ \ref{def:even},
+существуют такие целые числа $a, b \in \mathbb{Z}$, что $x$ и $y$ могут быть записаны следующим образом:
+$$
+\begin{aligned}
+x &= 2a \\
+y &= 2b
+\end{aligned}
+$$
+
+Тогда их сумма также удовлетворяет определению\ \ref{def:even},
+а значит является четным числом:
+$$
+x + y = 2a + 2b = 2(a + b).
+$$
+\end{proof}
+
+\begin{corollary}\label{cor:even} Сумма $n$ четных целых всегда четная.
+\end{corollary}
+
+\subsection{Алгоритмы}\label{sec:algorithms}
+
+Далее приведен алгорим~\ref{alg:gcd} для вычисления наибольшего общего
+делителя.
+
+\begin{algorithm}{alg:gcd} Поиск наибольшего общего делителя (НОД) двух
+неотрицательных целых чисел \(a\) и \(b\), где \(a > b\).
+
+\begin{enumerate}
+\tightlist
+\item
+  Инициализировать переменные \(a\) и \(b\) аргументами;
+\item
+  Пока \(b \neq 0\):
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    Вычислить остаток \(r\) от деления \(a\) на \(b\):
+    \(r \gets a \mod b\);
+  \item
+    Обновить переменные \(a \gets b\), \(b \gets r\);
+  \end{enumerate}
+\item
+  Вернуть значение \(a\) в качестве результата.
+\end{enumerate}
+
+\end{algorithm}
+
+\clearpage
+\pagebreak
+
+\section{РЕЗУЛЬТАТЫ}\label{sec:results}
+
+Тут приводится некоторое описание проведенных замеров, окружение, в
+котором они проводились и представляются итоговые результаты\footnote{В
+  тексте работы лучше приводить не только отрендеренные графики, но и
+  таблицы с финальными данными, а также доверительные интервалы для
+  каждой метрики.}.
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{Замеры производительности бенчмарка
+\passthrough{\lstinline!Bench!}}\tabularnewline
+\toprule\noalign{}
+Версия & Время (сек) & Кол-во запросов в сек. & Точность (\%) \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Версия & Время (сек) & Кол-во запросов в сек. & Точность (\%) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Base & 12.34 & 567 & 0.89 \\
+Opt & 10.12 & 600 & 0.95 \\
+Opt+ & \textbf{9.87} & \textbf{610} & \textbf{0.98} \\
+Deopt & 15.67 & 520 & 0.75 \\
+\end{longtable}
+
+Также приводится анализ полученных результатов, в котором полезно
+подчеркнуть не только замеры на которых произошли улучшения или
+ухудшения, но и почему они там произошли, и как можно было бы этого
+избежать.
 
 \clearpage
 \pagebreak
